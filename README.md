@@ -169,5 +169,36 @@ I set up a simulation for whether dev user group has permission to StopInstances
 ![Image](http://learn.nextwork.org/intense_indigo_vibrant_tayberry/uploads/aws-security-iam_069d8a621)
 
 ---
+### Deep Dive: Understanding the JSON Policy
+In this project, I moved beyond basic checkboxes to write a custom JSON (JavaScript Object Notation) policy. This is the language AWS uses to define "who can do what."
 
+Breakdown of the Policy Logic
+The policy I implemented uses a specific structure to enforce the Principle of Least Privilege:
+
+Effect: Set to Allow, which explicitly grants the permission.
+
+Action: I specified ec2:StopInstances and ec2:StartInstances. This means the user can turn the "development" servers on or off, but they cannot delete (terminate) them or create new ones.
+
+Resource: Instead of using a wildcard (*), which would give access to every server in the account, I used Condition Tags.
+
+The "Magic" of Condition Tags
+The most critical part of my policy was this block:
+
+JSON
+"Condition": {
+  "StringEquals": {
+    "aws:ResourceTag/Env": "development"
+  }
+}
+
+
+Why this matters:
+This logic creates an automated security boundary. Even if a user has the "StopInstance" permission, AWS checks the Tag on the server first.
+
+If the tag is Env: development, the action works.
+
+If the tag is Env: production, the action is automatically Denied.
+
+This demonstrates how Attribute-Based Access Control (ABAC) allows a company to scale security without needing to manually update permissions for every new server created.
+---
 ---
