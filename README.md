@@ -5,7 +5,7 @@
 **Project Link:** [View Project](http://learn.nextwork.org/projects/aws-security-iam)
 
 **Author:** Adwait Joshi  
-**Email:** apjadwait.joshi93@gmail.com
+**Email:** adwait9@zohomail.in
 
 ---
 
